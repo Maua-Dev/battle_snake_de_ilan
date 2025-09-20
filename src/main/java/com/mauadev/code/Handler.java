@@ -1,14 +1,14 @@
 package com.mauadev.code;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
@@ -71,9 +71,9 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         Map<String, String> info = new HashMap<>();
         info.put("apiversion", "1");
         info.put("author", "seu-nome-aqui");
-        info.put("color", "#888888"); // Ex: Cinza
-        info.put("head", "default");
-        info.put("tail", "default");
+        info.put("color", "#26075fa2"); // Ex: Cinza
+        info.put("head", "sand-worm");
+        info.put("tail", "mlh-gene");
         return info;
     }
 
