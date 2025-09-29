@@ -70,8 +70,8 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
     private Map<String, String> handleInfo() {
         Map<String, String> info = new HashMap<>();
         info.put("apiversion", "1");
-        info.put("author", "seu-nome-aqui");
-        info.put("color", "#26075fa2"); // Ex: Cinza
+        info.put("author", "Ilan");
+        info.put("color", "#5b23c3ff"); // Ex: Cinza
         info.put("head", "sand-worm");
         info.put("tail", "mlh-gene");
         return info;
@@ -92,9 +92,20 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         // AQUI VAI A LÓGICA DA SUA COBRA!
         // O corpo da requisição (request.getBody()) contém o estado atual do tabuleiro.
         // Você deve analisá-lo para tomar uma decisão inteligente.
-        
         // Exemplo de lógica muito simples: sempre se mover para cima.
         // CUIDADO: Isso fará sua cobra bater na parede rapidamente!
+
+        // "up", "down", "left", "right"
+        // health (integer) : 0 - 100
+        // body (array) : position on board (head to tail)
+        // head (object) : body(0)
+        // lenght (integer) : = body.length
+        // board: 11x11 -> [0 10] (0,0) Y cima+, X direita+
+            // heigh : numero de linhas em y
+            // widht : numero de colunas em X
+        // hazards (array) : com localizacao dos perigos
+        // food (array) : com localizacao das comidas
+        // snakes (array) : com quais snakes permanecem em jogo
         Map<String, String> move = new HashMap<>();
         move.put("move", "up");
         move.put("shout", "Estou indo para cima!"); // Opcional
@@ -102,6 +113,10 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         return move;
     }
 
+    /*
+     * flood fill
+     * 
+     */
     /**
      * Chamado no final de cada jogo. Não precisa retornar nada.
      */
