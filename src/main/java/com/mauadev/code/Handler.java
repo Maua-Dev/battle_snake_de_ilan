@@ -71,7 +71,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         Map<String, String> info = new HashMap<>();
         info.put("apiversion", "1");
         info.put("author", "Ilan");
-        info.put("color", "#5b23c3ff"); // Ex: Cinza
+        info.put("color", "#5b23c3ff"); 
         info.put("head", "sand-worm");
         info.put("tail", "mlh-gene");
         return info;
@@ -106,8 +106,55 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         // hazards (array) : com localizacao dos perigos
         // food (array) : com localizacao das comidas
         // snakes (array) : com quais snakes permanecem em jogo
+        int esq, dir, cima, baixo;
+        esq = 1;
+        dir = 2; 
+        baixo = 3;
+        cima = 4;
+        int[] mov = {esq,dir,cima,baixo};
+        Map<String, Object> situation = gson.fromJson(request.getBody(), Map.class);
         Map<String, String> move = new HashMap<>();
-        move.put("move", "up");
+        Map<String, Object> cobra = (Map<String, Object>)situation.get("you");
+        Map<String, Integer> cabeça = (Map<String, Integer>)cobra.get("head");
+        if(cabeça.get("y")==(Integer)situation.get("height")-1){
+            cima = -1;
+        }
+        if(cabeça.get("y")==0){
+            baixo = 2;
+        }
+        if(cabeça.get("x")==(Integer)situation.get("widht")-1){
+            dir = 3;
+        }if(cabeça.get("x")==0){
+            esq = 4;
+        }
+        boolean test = false;
+        for(int i:mov){
+            if(i != -1){
+                switch (i) {
+                    case 1:
+                        move.put("move", "up");
+                        test = true;
+                        break;
+                    case 2:
+                        move.put("move", "down");
+                        test = true;
+                        break;
+                    case 3:
+                        move.put("move", "right");
+                        test = true;
+                        break;
+                    case 4:
+                        move.put("move", "left");
+                        test = true;
+                        break;
+                }
+                break;
+            }
+        }
+        if(test){
+            move.put("move", "down");
+
+        }
         move.put("shout", "Estou indo para cima!"); // Opcional
 
         return move;
