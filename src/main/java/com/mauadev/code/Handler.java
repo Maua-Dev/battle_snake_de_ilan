@@ -111,12 +111,13 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         dir = 2; 
         baixo = 3;
         cima = 4;
-        int[] mov = {esq,dir,cima,baixo};
+        boolean test = false;
         Map<String, Object> situation = gson.fromJson(request.getBody(), Map.class);
         Map<String, String> move = new HashMap<>();
         Map<String, Object> cobra = (Map<String, Object>)situation.get("you");
         Map<String, Integer> cabeça = (Map<String, Integer>)cobra.get("head");
-        if(cabeça.get("y")==(Integer)situation.get("height")-1){
+        if(cabeça != null){
+            f(cabeça.get("y")==(Integer)situation.get("height")-1){
             cima = -1;
         }
         if(cabeça.get("y")==0){
@@ -127,7 +128,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         }if(cabeça.get("x")==0){
             esq = 4;
         }
-        boolean test = false;
+        int[] mov = {esq,dir,cima,baixo};
         for(int i:mov){
             if(i != -1){
                 switch (i) {
@@ -150,6 +151,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 }
                 break;
             }
+        }
         }
         if(test){
             move.put("move", "down");
