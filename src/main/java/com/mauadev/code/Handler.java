@@ -127,7 +127,6 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         esq = 4;
 
         test = false;
-
         Coordinate cabeça = you.getHead();
 
         if(cabeça != null){
@@ -159,6 +158,24 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 }
                 if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
                     esq = -1;
+                }
+            }
+        // not colide with other snakes
+            for(Snake s:board.getSnakes()){
+                for(int i = 0; i <s.getBody().size();i++){
+                    Coordinate position = s.getBody().get(i);
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                        cima = -1;
+                    }
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                        baixo = -1;
+                    }
+                    if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
+                        dir = -1;
+                    }
+                    if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
+                        esq = -1;
+                    }
                 }
             }
             // path to fruit
@@ -197,7 +214,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             }
             else{
                 mov = new int[]{dir,esq,cima,baixo};
-                        for(int i:mov){
+        for(int i:mov){
             if(i != -1){
                 switch (i) {
                     case 1:
