@@ -27,9 +27,9 @@ public  class Direction {
     public int[] finalPriority(){
         int[] resp = new int[4];
         for (int i = 0; i < 4; i++) {
-            int index = priority[0];
+            int index = 0;
             for (int j=0;j<4;j++) {
-                if(priority[j]>index){
+                if(priority[j]>priority[index]){
                     index = j;
                 }
             }
@@ -49,7 +49,6 @@ public  class Direction {
             }
             priority[index] = -1;
         }
-
         return resp;
     }
 

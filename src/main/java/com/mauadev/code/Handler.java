@@ -254,7 +254,6 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             else{
                 int[] decision = mov.finalPriority();
         for(int i:decision){
-            System.out.println("Prioridade: "+i);
             if(i != -1){
                 switch (i) {
                     case 1:

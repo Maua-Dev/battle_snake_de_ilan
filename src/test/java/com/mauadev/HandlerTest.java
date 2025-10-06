@@ -216,13 +216,14 @@ public class HandlerTest {
         "name": "My Snake",
         "health": 54,
         "body": [
-          {"x": 0, "y": 0},
-          {"x": 1, "y": 0},
-          {"x": 2, "y": 0}
+          {"x": 7, "y": 0},
+          {"x": 6, "y": 0},
+          {"x": 5, "y": 0},
+          {"x": 5, "y": 1}
         ],
         "latency": "111",
-        "head": {"x": 0, "y": 0},
-        "length": 3,
+        "head": {"x": 7, "y": 0},
+        "length": 4,
         "shout": "why are we shouting??",
         "customizations":{
           "color":"#FF0000",
@@ -235,14 +236,13 @@ public class HandlerTest {
         "name": "Another Snake",
         "health": 16,
         "body": [
-          {"x": 5, "y": 4},
-          {"x": 5, "y": 3},
-          {"x": 6, "y": 3},
-          {"x": 6, "y": 2}
+          {"x": 9, "y": 4},
+          {"x": 8, "y": 4},
+          {"x": 8, "y": 5}
         ],
         "latency": "222",
-        "head": {"x": 5, "y": 4},
-        "length": 4,
+        "head": {"x": 9, "y": 4},
+        "length": 3,
         "shout": "I'm not really sure...",
         "customizations":{
           "color":"#26CF04",
@@ -255,14 +255,14 @@ public class HandlerTest {
   "you": {
     "id": "snake-508e96ac-94ad-11ea-bb37",
     "name": "My Snake",
-    "health": 54,
+    "health": 80,
     "body": [
-      {"x": 0, "y": 0},
-      {"x": 1, "y": 0},
-      {"x": 2, "y": 0}
+      {"x": 6, "y": 1},
+      {"x": 6, "y": 2},
+      {"x": 6, "y": 3}
     ],
     "latency": "111",
-    "head": {"x": 0, "y": 0},
+    "head": {"x": 6, "y": 1},
     "length": 3,
     "shout": "why are we shouting??",
     "customizations": {
