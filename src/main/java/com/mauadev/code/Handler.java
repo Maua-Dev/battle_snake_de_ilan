@@ -117,7 +117,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         Map<String, Object> cobra = (Map<String, Object>)situation.get("you");
         Map<String, Integer> cabeça = (Map<String, Integer>)cobra.get("head");
         if(cabeça != null){
-            f(cabeça.get("y")==(Integer)situation.get("height")-1){
+            if(cabeça.get("y")==(Integer)situation.get("height")-1){
             cima = -1;
         }
         if(cabeça.get("y")==0){
