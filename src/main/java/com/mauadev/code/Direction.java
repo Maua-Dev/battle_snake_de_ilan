@@ -1,7 +1,5 @@
 package com.mauadev.code;
 
-import java.util.List;
-
 /**
  * Function to decide priority of which move to check firs
  
@@ -35,7 +33,7 @@ public  class Direction {
                     index = j;
                 }
             }
-            switch (index) {
+            switch (index+1) {
                 case 1:
                     resp[i] = up;
                     break;
@@ -51,6 +49,7 @@ public  class Direction {
             }
             priority[index] = -1;
         }
+
         return resp;
     }
 
