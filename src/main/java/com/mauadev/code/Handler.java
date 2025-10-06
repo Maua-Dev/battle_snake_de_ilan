@@ -14,6 +14,13 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
 
     // Gson é uma biblioteca para converter objetos Java para JSON e vice-versa.
     private static final Gson gson = new Gson();
+    private int esq, dir, cima, baixo;
+    private boolean test;
+    private String requestBody;
+    private GameState gameState;
+    private Board board;
+    private Snake you;
+    private int[] mov;
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
@@ -106,95 +113,75 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         // hazards (array) : com localizacao dos perigos
         // food (array) : com localizacao das comidas
         // snakes (array) : com quais snakes permanecem em jogo
-
-        /*
-         * int esq, dir, cima, baixo;
-        esq = 1;
-        dir = 2; 
-        baixo = 3;
-        cima = 4;
-        boolean test = false;
-        Map<String, Object> situation = gson.fromJson(request.getBody(), Map.class);
         Map<String, String> move = new HashMap<>();
-        Map<String, Object> cobra = (Map<String, Object>)situation.get("you");
-        Map<String, Integer> cabeça = (Map<String, Integer>)cobra.get("head");
-        if(cabeça != null){
-            if(cabeça.get("y")==(Integer)situation.get("height")-1){
-            cima = -1;
-        }
-        if(cabeça.get("y")==0){
-            baixo = 2;
-        }
-        if(cabeça.get("x")==(Integer)situation.get("widht")-1){
-            dir = 3;
-        }if(cabeça.get("x")==0){
-            esq = 4;
-        }
-        int[] mov = {esq,dir,cima,baixo};
-        for(int i:mov){
-            if(i != -1){
-                switch (i) {
-                    case 1:
-                        move.put("move", "up");
-                        test = true;
-                        break;
-                    case 2:
-                        move.put("move", "down");
-                        test = true;
-                        break;
-                    case 3:
-                        move.put("move", "right");
-                        test = true;
-                        break;
-                    case 4:
-                        move.put("move", "left");
-                        test = true;
-                        break;
-                }
-                break;
-            }
-        }
-        }
-        if(test){
-            move.put("move", "down");
 
-        }
-         */
-        String requestBody = request.getBody();
-        GameState gameState = gson.fromJson(requestBody, GameState.class);
-        Board board = gameState.getBoard();
-        Snake you = (Snake)gameState.getYou();
+        requestBody = request.getBody();
+        gameState = gson.fromJson(requestBody, GameState.class);
+        board = gameState.getBoard();
+        you = (Snake)gameState.getYou();
 
         //
-        int esq, dir, cima, baixo;
         cima = 1;
         baixo = 2;
         dir = 3;
         esq = 4;
-        boolean test = false;
-        System.out.println("Tamanho da borda: "+board.getWidth());
+
+        test = false;
+
         Coordinate cabeça = you.getHead();
-        // not colide with board nor body
+
         if(cabeça != null){
+        // not colide with board nor body
             if(cabeça.getY()==board.getHeight()-1 || cabeça.getY()==you.getBody().get(1).getY()-1){
-            cima = -1;
-        }
-        if(cabeça.getY()==0 || cabeça.getY()==you.getBody().get(1).getY()+1){
-            baixo = -1;
-        }
-        if(cabeça.getX()==board.getWidth() -1|| cabeça.getX()==you.getBody().get(1).getX()-1){
-            dir = -1;
-        }
-        if(cabeça.getX()==0 || cabeça.getX()==you.getBody().get(1).getX()+1){
-            esq = -1;
-        }
-        }
+                cima = -1;
+            }
+            if(cabeça.getY()==0 || cabeça.getY()==you.getBody().get(1).getY()+1){
+                baixo = -1;
+            }
+            if(cabeça.getX()==board.getWidth() -1|| cabeça.getX()==you.getBody().get(1).getX()-1){
+                dir = -1;
+            }
+            if(cabeça.getX()==0 || cabeça.getX()==you.getBody().get(1).getX()+1){
+                esq = -1;
+            }
 
-        //
-        Map<String, String> move = new HashMap<>();
+            // path to fruit
+            if(you.getHealth()<50){
+                if(!board.getFood().isEmpty()){
+                    Coordinate target = board.getFood().get(0);
+                    // mecanica para ditar qual movimento e prioridade
+                    if(cabeça.getY()<target.getY()){
+                        if(cima!=-1){
+                            move.put("move", "up");
+                            test = true;
+                        }
+                    }
 
-        int[] mov = {dir,esq,cima,baixo};
-        for(int i:mov){
+                    if(cabeça.getY()>target.getY()){
+                        if(baixo!=-1){
+                            move.put("move", "down");
+                            test = true;
+                        }
+                    }
+
+                    if(cabeça.getX()<target.getX()){
+                        if(dir!=-1){
+                            move.put("move", "right");
+                            test = true;
+                        }
+                    }
+
+                    if(cabeça.getX()>target.getX()){
+                        if(esq!=-1){
+                            move.put("move", "left");
+                            test = true;
+                        }
+                    }
+                }
+            }
+            else{
+                mov = new int[]{dir,esq,cima,baixo};
+                        for(int i:mov){
             if(i != -1){
                 switch (i) {
                     case 1:
@@ -217,6 +204,10 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 break;
             }
         }
+            }
+        
+        }
+        //
         if(!test){
             move.put("move", "down");
 
