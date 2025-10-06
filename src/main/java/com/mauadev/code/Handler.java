@@ -131,20 +131,36 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         Coordinate cabeça = you.getHead();
 
         if(cabeça != null){
-        // not colide with board nor body
-            if(cabeça.getY()==board.getHeight()-1 || cabeça.getY()==you.getBody().get(1).getY()-1){
+        // not colide with board
+            if(cabeça.getY()==board.getHeight()-1){
                 cima = -1;
             }
-            if(cabeça.getY()==0 || cabeça.getY()==you.getBody().get(1).getY()+1){
+            if(cabeça.getY()==0){
                 baixo = -1;
             }
-            if(cabeça.getX()==board.getWidth() -1|| cabeça.getX()==you.getBody().get(1).getX()-1){
+            if(cabeça.getX()==board.getWidth() -1){
                 dir = -1;
             }
-            if(cabeça.getX()==0 || cabeça.getX()==you.getBody().get(1).getX()+1){
+            if(cabeça.getX()==0){
                 esq = -1;
             }
+        // not colide with body
 
+            for(int i = 1; i <you.getBody().size();i++){
+                Coordinate position = you.getBody().get(i);
+                if(cabeça.getY()==position.getY()-1){
+                    cima = -1;
+                }
+                if(cabeça.getY()==position.getY()+1){
+                    baixo = -1;
+                }
+                if(cabeça.getX()==position.getX()-1){
+                    dir = -1;
+                }
+                if(cabeça.getX()==position.getX()+1){
+                    esq = -1;
+                }
+            }
             // path to fruit
             if(you.getHealth()<50){
                 if(!board.getFood().isEmpty()){
