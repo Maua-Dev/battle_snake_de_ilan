@@ -145,7 +145,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             }
         // not colide with body
 
-            for(int i = 1; i <you.getBody().size();i++){
+            for(int i = 1; i <you.getBody().size()-1;i++){
                 Coordinate position = you.getBody().get(i);
                 if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
                     cima = -1;
