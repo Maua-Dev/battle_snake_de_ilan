@@ -167,10 +167,10 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
 
         //
         int esq, dir, cima, baixo;
-        esq = 1;
-        dir = 2; 
-        baixo = 3;
-        cima = 4;
+        cima = 1;
+        baixo = 2;
+        dir = 3;
+        esq = 4;
         boolean test = false;
 
         Coordinate cabeça = you.getHead();
