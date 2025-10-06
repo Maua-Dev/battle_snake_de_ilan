@@ -20,7 +20,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
     private GameState gameState;
     private Board board;
     private Snake you;
-    private int[] mov;
+    private Direction mov;
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
@@ -114,6 +114,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         // food (array) : com localizacao das comidas
         // snakes (array) : com quais snakes permanecem em jogo
         Map<String, String> move = new HashMap<>();
+        mov = new Direction();
 
         requestBody = request.getBody();
         gameState = gson.fromJson(requestBody, GameState.class);
@@ -121,10 +122,14 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         you = (Snake)gameState.getYou();
 
         //
+        
         cima = 1;
         baixo = 2;
         dir = 3;
         esq = 4;
+        
+
+        // movimentacao padrao
 
         test = false;
         Coordinate cabeça = you.getHead();
@@ -132,49 +137,83 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         if(cabeça != null){
         // not colide with board
             if(cabeça.getY()==board.getHeight()-1){
-                cima = -1;
+                mov.setUp(-1);
             }
             if(cabeça.getY()==0){
-                baixo = -1;
+                mov.setDown(-1);
             }
             if(cabeça.getX()==board.getWidth() -1){
-                dir = -1;
+                mov.setRight(-1);
             }
             if(cabeça.getX()==0){
-                esq = -1;
+                mov.setLeft(-1);
             }
         // not colide with body
 
             for(int i = 1; i <you.getBody().size()-1;i++){
                 Coordinate position = you.getBody().get(i);
                 if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
-                    cima = -1;
+                    mov.setUp(-1);
                 }
                 if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
-                    baixo = -1;
+                    mov.setDown(-1);
                 }
                 if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
-                    dir = -1;
+                    mov.setRight(-1);
                 }
                 if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
-                    esq = -1;
+                    mov.setLeft(-1);
                 }
             }
         // not colide with other snakes
             for(Snake s:board.getSnakes()){
                 for(int i = 0; i <s.getBody().size();i++){
                     Coordinate position = s.getBody().get(i);
+                    if(i == 0){
+                    // prioridades
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-1){
+                        // - | - | O
+                        // - | Y | -
+                        // - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                    }
+
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+1){
+                        // O | - | -
+                        // - | Y | -
+                        // - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                    }
+
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-1){
+                        // - | - | -
+                        // - | Y | -
+                        // - | - | O
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    }
+
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+1){
+                        // - | - | -
+                        // - | Y | -
+                        // O | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    }
+                    }
                     if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
-                        cima = -1;
+                        mov.setUp(-1);
                     }
                     if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
-                        baixo = -1;
+                        mov.setDown(-1);
                     }
                     if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
-                        dir = -1;
+                        mov.setRight(-1);
                     }
                     if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
-                        esq = -1;
+                        mov.setLeft(-1);
                     }
                 }
             }
@@ -184,28 +223,28 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                     Coordinate target = board.getFood().get(0);
                     // mecanica para ditar qual movimento e prioridade
                     if(cabeça.getY()<target.getY()){
-                        if(cima!=-1){
+                        if(mov.getUp()!=-1){
                             move.put("move", "up");
                             test = true;
                         }
                     }
 
                     if(cabeça.getY()>target.getY()){
-                        if(baixo!=-1){
+                        if(mov.getDown()!=-1){
                             move.put("move", "down");
                             test = true;
                         }
                     }
 
                     if(cabeça.getX()<target.getX()){
-                        if(dir!=-1){
+                        if(mov.getRight()!=-1){
                             move.put("move", "right");
                             test = true;
                         }
                     }
 
                     if(cabeça.getX()>target.getX()){
-                        if(esq!=-1){
+                        if(mov.getLeft()!=-1){
                             move.put("move", "left");
                             test = true;
                         }
@@ -213,8 +252,8 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 }
             }
             else{
-                mov = new int[]{dir,esq,cima,baixo};
-        for(int i:mov){
+                int[] decision = mov.finalPriority();
+        for(int i:decision){
             if(i != -1){
                 switch (i) {
                     case 1:
