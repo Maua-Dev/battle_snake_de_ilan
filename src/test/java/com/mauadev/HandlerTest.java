@@ -1,21 +1,22 @@
 package com.mauadev;
 
+import java.lang.reflect.Type;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Type;
-import java.util.Map;
-
 import com.mauadev.code.Handler;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Testes unitários para a classe Handler.
@@ -173,5 +174,119 @@ public class HandlerTest {
         public void log(byte[] message) {
             System.out.println(new String(message));
         }
+    }
+    
+    @Test
+    @DisplayName("Teste da rota/move")
+    public void testHandleMove_withoutBoardData(){
+        APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent().withPath("/move");
+
+        String jsonRequestBody = """
+{
+  "game": {
+    "id": "totally-unique-game-id",
+    "ruleset": {
+      "name": "standard",
+      "version": "v1.1.15",
+      "settings": {
+        "foodSpawnChance": 15,
+        "minimumFood": 1,
+        "hazardDamagePerTurn": 14
+      }
+    },
+    "map": "standard",
+    "source": "league",
+    "timeout": 500
+  },
+  "turn": 14,
+  "board": {
+    "height": 11,
+    "width": 11,
+    "food": [
+      {"x": 5, "y": 5},
+      {"x": 9, "y": 0},
+      {"x": 2, "y": 6}
+    ],
+    "hazards": [
+      {"x": 3, "y": 2}
+    ],
+    "snakes": [
+      {
+        "id": "snake-508e96ac-94ad-11ea-bb37",
+        "name": "My Snake",
+        "health": 54,
+        "body": [
+          {"x": 0, "y": 0},
+          {"x": 1, "y": 0},
+          {"x": 2, "y": 0}
+        ],
+        "latency": "111",
+        "head": {"x": 0, "y": 0},
+        "length": 3,
+        "shout": "why are we shouting??",
+        "customizations":{
+          "color":"#FF0000",
+          "head":"pixel",
+          "tail":"pixel"
+        }
+      },
+      {
+        "id": "snake-b67f4906-94ae-11ea-bb37",
+        "name": "Another Snake",
+        "health": 16,
+        "body": [
+          {"x": 5, "y": 4},
+          {"x": 5, "y": 3},
+          {"x": 6, "y": 3},
+          {"x": 6, "y": 2}
+        ],
+        "latency": "222",
+        "head": {"x": 5, "y": 4},
+        "length": 4,
+        "shout": "I'm not really sure...",
+        "customizations":{
+          "color":"#26CF04",
+          "head":"silly",
+          "tail":"curled"
+        }
+      }
+    ]
+  },
+  "you": {
+    "id": "snake-508e96ac-94ad-11ea-bb37",
+    "name": "My Snake",
+    "health": 54,
+    "body": [
+      {"x": 0, "y": 0},
+      {"x": 1, "y": 0},
+      {"x": 2, "y": 0}
+    ],
+    "latency": "111",
+    "head": {"x": 0, "y": 0},
+    "length": 3,
+    "shout": "why are we shouting??",
+    "customizations": {
+      "color":"#FF0000",
+      "head":"pixel",
+      "tail":"pixel"
+    }
+  }
+}
+                """;
+        
+        request.setBody(jsonRequestBody);
+
+        // act
+        APIGatewayProxyResponseEvent response = handler.handleRequest(request, testContext);
+
+        // Assert
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        Type mapType = new TypeToken<Map<String, String>>() {}.getType();
+        Map<String, String> body = gson.fromJson(response.getBody(), mapType);
+
+        //assertEquals("up", body.get("move")); // Verifica a lógica simples atual
+        assertEquals("Estou indo para cima!", body.get("shout"));
     }
 }

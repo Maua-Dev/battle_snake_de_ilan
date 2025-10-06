@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Board {
     private int height;
-    private int widht;
+    private int width;
     private List<Coordinate> food;
     private List<Coordinate> hazards;
     private List<Snake> snakes;
@@ -12,9 +12,9 @@ public class Board {
     public Board() {
     }
 
-    public Board(int height, int widht, List<Coordinate> food, List<Coordinate> hazards, List<Snake> snakes) {
+    public Board(int height, int width, List<Coordinate> food, List<Coordinate> hazards, List<Snake> snakes) {
         this.height = height;
-        this.widht = widht;
+        this.width = width;
         this.food = food;
         this.hazards = hazards;
         this.snakes = snakes;
@@ -36,8 +36,8 @@ public class Board {
         return snakes;
     }
 
-    public int getWidht() {
-        return widht;
+    public int getWidth() {
+        return width;
     }
 
     public void setFood(List<Coordinate> food) {
@@ -56,8 +56,8 @@ public class Board {
         this.snakes = snakes;
     }
 
-    public void setWidht(int widht) {
-        this.widht = widht;
+    public void setWidth(int widht) {
+        this.width = widht;
     }
 
 }
