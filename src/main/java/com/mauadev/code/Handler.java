@@ -182,7 +182,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         if(cabeça.getY()==0 || cabeça.getY()==you.getBody().get(1).getY()+1){
             baixo = -1;
         }
-        if(cabeça.getX()==board.getWidht()-1 || cabeça.getX()==you.getBody().get(1).getX()-1){
+        if(cabeça.getX()==board.getWidht() || cabeça.getX()==you.getBody().get(1).getX()-1){
             dir = -1;
         }
         if(cabeça.getX()==0 || cabeça.getX()==you.getBody().get(1).getX()+1){
