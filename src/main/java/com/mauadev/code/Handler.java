@@ -148,16 +148,16 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
 
             for(int i = 1; i <you.getBody().size();i++){
                 Coordinate position = you.getBody().get(i);
-                if(cabeça.getY()==position.getY()-1){
+                if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
                     cima = -1;
                 }
-                if(cabeça.getY()==position.getY()+1){
+                if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
                     baixo = -1;
                 }
-                if(cabeça.getX()==position.getX()-1){
+                if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
                     dir = -1;
                 }
-                if(cabeça.getX()==position.getX()+1){
+                if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
                     esq = -1;
                 }
             }
