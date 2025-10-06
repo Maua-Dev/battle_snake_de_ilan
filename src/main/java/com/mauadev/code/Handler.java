@@ -202,6 +202,50 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(dir);
                         mov.setPriority(cima);
                     }
+
+                    if(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()){
+                        // - | - | O | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }
+
+                    if(cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | O | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                    }
+
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-2){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | O
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }
+
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+2){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // O | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }
                     }
                     if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
                         mov.setUp(-1);
