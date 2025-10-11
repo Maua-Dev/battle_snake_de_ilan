@@ -341,7 +341,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             }
             for (Coordinate c : possibilities(agora)) {
                 int novoCusto = preço.get((agora))+dangerMap[c.getX()][c.getY()];
-                if((!deOndeveio.containsKey(c)|| novoCusto<preço.get(c) ) && boardMap[c.getX()][c.getY()]!= _wall){
+                if((!deOndeveio.containsKey(c)|| novoCusto<preço.get(c) ) && (boardMap[c.getX()][c.getY()]!= _wall)){
                     preço.putIfAbsent(c, novoCusto);
                     int prioridade = novoCusto + calculateDistance(c, goal);
                     fila.add(new Node(c, prioridade));
@@ -495,7 +495,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             Coordinate analysed = sequence.poll();
             count++;
 
-            for (Coordinate inspect : possibilities(analysed)) {
+            for (Coordinate inspect : RadarPossibilities(analysed)) {
                 if(!visited[inspect.getX()][inspect.getY()]){
                     sequence.add(inspect);
                     visited[inspect.getX()][inspect.getY()] = true;
@@ -505,7 +505,32 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         return count;
     }
 
-    
+    private List<Coordinate> RadarPossibilities(Coordinate from){
+        int[][] directions = new int[][]{
+        {0, 1}, {0, -1}, {1, 0}, {-1, 0}
+        };
+
+        List<Coordinate> result = new LinkedList<>();
+    for (int[] d : directions) {
+        int x = from.getX() + d[0];
+        int y = from.getY() + d[1];
+        Coordinate c = new Coordinate(x, y);
+
+        if (isInBounds(c)) {
+            int value = boardMap[x][y];
+
+            if (value == _tail) {
+                Coordinate tail = you.getBody().get(you.getLength() - 1);
+                if (tail.equals(c)) {
+                    result.add(c);
+                }
+            } else if (value != _wall) {
+                result.add(c);
+            }
+        }
+    }
+    return result;
+    }
     /**
      * caculates possible paths
      * @param analyse
@@ -534,7 +559,11 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
     private boolean isWalkable(Coordinate analyse){ 
         if(analyse.getX()>=0 && analyse.getX()<width
         && analyse.getY()>=0 && analyse.getY()<heigth){
-            return boardMap[analyse.getX()][analyse.getY()] != _wall;
+            int value = boardMap[analyse.getX()][analyse.getY()];
+            if (value == _tail) {
+            if (you.getHealth() < 100) return true; 
+            else return false; 
+            } else return value != _wall;
         } else return false;
     }
     /**
