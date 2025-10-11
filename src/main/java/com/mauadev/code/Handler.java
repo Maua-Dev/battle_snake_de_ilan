@@ -178,7 +178,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(esq);
                         mov.setPriority(baixo);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+1){
                         // O | - | -
                         // - | Y | -
@@ -186,7 +186,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(dir);
                         mov.setPriority(baixo);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-1){
                         // - | - | -
                         // - | Y | -
@@ -194,7 +194,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(esq);
                         mov.setPriority(cima);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+1){
                         // - | - | -
                         // - | Y | -
@@ -202,7 +202,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(dir);
                         mov.setPriority(cima);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()){
                         // - | - | O | - | -
                         // - | - | - | - | -
@@ -213,7 +213,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(baixo);
                         mov.setPriority(dir);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()){
                         // - | - | - | - | -
                         // - | - | - | - | -
@@ -224,7 +224,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(cima);
                         mov.setPriority(dir);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-2){
                         // - | - | - | - | -
                         // - | - | - | - | -
@@ -235,7 +235,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(baixo);
                         mov.setPriority(cima);
                     }
-
+                    else
                     if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+2){
                         // - | - | - | - | -
                         // - | - | - | - | -
@@ -245,17 +245,409 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         mov.setPriority(dir);
                         mov.setPriority(baixo);
                         mov.setPriority(cima);
+                    }else
+                    if(cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()){
+                        // - | - | - | 0 | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | O
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    }else
+                    if(cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | O
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | 0 | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                        mov.setPriority(esq);
+                    }else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-3){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | 0
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+3){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // 0 | - | - | Y | - | - | o
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }else
+                    if((cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | o
+                        // - | 0 | - | - | - | O | -
+                        // - | - | 0 | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    }else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+2)||
+                    cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+1){
+                        // - | - | - | O | - | - | -
+                        // - | - | 0 | - | O | - | -
+                        // - | 0 | - | - | - | O | -
+                        // O | - | - | Y | - | - | o
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }else
+                    if((cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()-1)){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | o
+                        // - | O | - | - | - | 0 | -
+                        // - | - | O | - | 0 | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    }else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-2)
+                     ||(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()-1)){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | 0 | - | -
+                        // - | O | - | - | - | 0 | -
+                        // O | - | - | Y | - | - | o
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
                     }
+                    else
+                    if(cabeça.getY()==position.getY()-4 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | 0 | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
                     }
+                    else
+                    if(cabeça.getY()==position.getY()+4 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | 0 | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-4){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | 0
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+4){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // 0 | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | 0 | - | o | - | - | -
+                        // - | - | 0 | - | - | - | o | - | -
+                        // - | 0 | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | 0 | - | - | - | - | - | o | -
+                        // - | - | 0 | - | - | - | o | - | -
+                        // - | - | - | 0 | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-3)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()-1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | 0 | - | - | -
+                        // - | - | o | - | - | - | 0 | - | -
+                        // - | o | - | - | - | - | - | 0 | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | 0 | -
+                        // - | - | o | - | - | - | 0 | - | -
+                        // - | - | - | o | - | 0 | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-5){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | O
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+5){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // O | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()-5 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | - | O | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()+5 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | O | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()+4 && cabeça.getX()==position.getX()-1)||
+                    (cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()-3)||
+                    (cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | O | -
+                        // - | - | x | - | - | - | - | - | O | - | -
+                        // - | - | - | x | - | - | - | O | - | - | -
+                        // - | - | - | - | x | - | O | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(esq);
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()+4 && cabeça.getX()==position.getX()+1)||
+                    (cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | O | - | - | - | - | - | - | - | x | -
+                        // - | - | O | - | - | - | - | - | x | - | -
+                        // - | - | - | O | - | - | - | x | - | - | -
+                        // - | - | - | - | O | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-4 && cabeça.getX()==position.getX()-1)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()-3)||
+                    (cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | O | - | - | - | -
+                        // - | - | - | x | - | - | - | O | - | - | -
+                        // - | - | x | - | - | - | - | - | O | - | -
+                        // - | x | - | - | - | - | - | - | - | O | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-4 && cabeça.getX()==position.getX()+1)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | O | - | x | - | - | - | -
+                        // - | - | - | O | - | - | - | x | - | - | -
+                        // - | - | O | - | - | - | - | - | x | - | -
+                        // - | O | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }
+                    else
                     if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
                         mov.setUp(-1);
-                    }
+                    }else
                     if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
                         mov.setDown(-1);
-                    }
+                    }else
                     if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
                         mov.setRight(-1);
-                    }
+                    }else
                     if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
                         mov.setLeft(-1);
                     }
@@ -264,39 +656,71 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             // path to fruit
             if(you.getHealth()<50){
                 if(!board.getFood().isEmpty()){
-                    Coordinate target = board.getFood().get(0);
+                    Coordinate target = null;
+                    int distance = Integer.MAX_VALUE;
+                    for (Coordinate c:board.getFood()) {
+                        int newDistance = Math.abs(c.getX()-you.getHead().getX())+Math.abs(c.getX()-you.getHead().getX());
+                        if(newDistance < distance){
+                            distance = newDistance;
+                            target = c;
+                        }
+                    }
                     // mecanica para ditar qual movimento e prioridade
                     if(cabeça.getY()<target.getY()){
-                        if(mov.getUp()!=-1){
-                            move.put("move", "up");
-                            test = true;
-                        }
+                        mov.setPriority(cima);
+                        mov.setPriority(cima);
+                        mov.setPriority(cima);
                     }
 
                     if(cabeça.getY()>target.getY()){
-                        if(mov.getDown()!=-1){
-                            move.put("move", "down");
-                            test = true;
-                        }
+                        mov.setPriority(baixo);
+                        mov.setPriority(baixo);
+                        mov.setPriority(baixo);
                     }
 
                     if(cabeça.getX()<target.getX()){
-                        if(mov.getRight()!=-1){
-                            move.put("move", "right");
-                            test = true;
-                        }
+                        mov.setPriority(dir);
+                        mov.setPriority(dir);
+                        mov.setPriority(dir);
                     }
 
                     if(cabeça.getX()>target.getX()){
-                        if(mov.getLeft()!=-1){
-                            move.put("move", "left");
-                            test = true;
-                        }
+                        mov.setPriority(esq);
+                        mov.setPriority(esq);
+                        mov.setPriority(esq);
                     }
                 }
             }
             else{
-                int[] decision = mov.finalPriority();
+                if(!board.getFood().isEmpty()){
+                    Coordinate target = null;
+                    int distance = Integer.MAX_VALUE;
+                    for (Coordinate c:board.getFood()) {
+                        int newDistance = Math.abs(c.getX()-you.getHead().getX())+Math.abs(c.getX()-you.getHead().getX());
+                        if(newDistance < distance){
+                            distance = newDistance;
+                            target = c;
+                        }
+                    }
+                    // mecanica para ditar qual movimento e prioridade
+                    if(cabeça.getY()<target.getY()){
+                        mov.setPriority(cima);
+                    }
+
+                    if(cabeça.getY()>target.getY()){
+                        mov.setPriority(baixo);
+                    }
+
+                    if(cabeça.getX()<target.getX()){
+                        mov.setPriority(dir);
+                    }
+
+                    if(cabeça.getX()>target.getX()){
+                        mov.setPriority(esq);
+                    }
+                }
+            }
+        int[] decision = mov.finalPriority();
         for(int i:decision){
             if(i != -1){
                 switch (i) {
@@ -320,9 +744,8 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 break;
             }
         }
-            }
-        
         }
+    }
         //
         if(!test){
             move.put("move", "down");
