@@ -220,84 +220,580 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             }
             else{
 
-                int spaceCount = radar(possibility[i]);
-                priorityMove[i]+=spaceCount;
+            for(int i = 1; i <you.getBody().size()-1;i++){
+                Coordinate position = you.getBody().get(i);
+                if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                    mov.setUp(-1);
+                }
+                if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                    mov.setDown(-1);
+                }
+                if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
+                    mov.setRight(-1);
+                }
+                if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
+                    mov.setLeft(-1);
+                }
+            }
+        // not colide with other snakes
+            for(Snake s:board.getSnakes()){
+                for(int i = 0; i <s.getBody().size();i++){
+                    Coordinate position = s.getBody().get(i);
+                    if(i == 0){
+                    // prioridades
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-1){
+                        // - | - | O
+                        // - | Y | -
+                        // - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+1){
+                        // O | - | -
+                        // - | Y | -
+                        // - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-1){
+                        // - | - | -
+                        // - | Y | -
+                        // - | - | O
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+1){
+                        // - | - | -
+                        // - | Y | -
+                        // O | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()){
+                        // - | - | O | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | O | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-2){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | O
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+2){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // O | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }else
+                    if(cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()){
+                        // - | - | - | 0 | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | O
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    }else
+                    if(cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | O
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | 0 | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                        mov.setPriority(esq);
+                    }else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-3){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | 0
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+3){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // 0 | - | - | Y | - | - | o
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }else
+                    if((cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | o
+                        // - | 0 | - | - | - | O | -
+                        // - | - | 0 | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    }else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+2)||
+                    cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+1){
+                        // - | - | - | O | - | - | -
+                        // - | - | 0 | - | O | - | -
+                        // - | 0 | - | - | - | O | -
+                        // O | - | - | Y | - | - | o
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }else
+                    if((cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()-1)){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | O | - | -
+                        // - | O | - | - | - | O | -
+                        // O | - | - | Y | - | - | o
+                        // - | O | - | - | - | 0 | -
+                        // - | - | O | - | 0 | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    }else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-2)
+                     ||(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()-1)){
+                        // - | - | - | O | - | - | -
+                        // - | - | O | - | 0 | - | -
+                        // - | O | - | - | - | 0 | -
+                        // O | - | - | Y | - | - | o
+                        // - | O | - | - | - | O | -
+                        // - | - | O | - | O | - | -
+                        // - | - | - | O | - | - | -
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()-4 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | 0 | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
 
-                // if there is little space
-                if(spaceCount < you.getLength() + 2){
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()+4 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | 0 | - | - | - | -
 
-                    priorityMove[i] -=10;
-                    if(spaceCount < 3){
-                        priorityMove[i] -= 100;
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-4){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | 0
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+4){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // 0 | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | 0 | - | o | - | - | -
+                        // - | - | 0 | - | - | - | o | - | -
+                        // - | 0 | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | 0 | - | - | - | - | - | o | -
+                        // - | - | 0 | - | - | - | o | - | -
+                        // - | - | - | 0 | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-3)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()-1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | 0 | - | - | -
+                        // - | - | o | - | - | - | 0 | - | -
+                        // - | o | - | - | - | - | - | 0 | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | o | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()+1)){
+                        // - | - | - | - | o | - | - | - | -
+                        // - | - | - | o | - | o | - | - | -
+                        // - | - | o | - | - | - | o | - | -
+                        // - | o | - | - | - | - | - | o | -
+                        // o | - | - | - | Y | - | - | - | o
+                        // - | o | - | - | - | - | - | 0 | -
+                        // - | - | o | - | - | - | 0 | - | -
+                        // - | - | - | o | - | 0 | - | - | -
+                        // - | - | - | - | o | - | - | - | -
+
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-5){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | O
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+5){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // O | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()-5 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | - | O | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()+5 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | O | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                        mov.setPriority(esq);
+                    
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()+4 && cabeça.getX()==position.getX()-1)||
+                    (cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()-3)||
+                    (cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | O | -
+                        // - | - | x | - | - | - | - | - | O | - | -
+                        // - | - | - | x | - | - | - | O | - | - | -
+                        // - | - | - | - | x | - | O | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(esq);
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()+4 && cabeça.getX()==position.getX()+1)||
+                    (cabeça.getY()==position.getY()+3 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | O | - | - | - | - | - | - | - | x | -
+                        // - | - | O | - | - | - | - | - | x | - | -
+                        // - | - | - | O | - | - | - | x | - | - | -
+                        // - | - | - | - | O | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-4 && cabeça.getX()==position.getX()-1)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()-2)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()-3)||
+                    (cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | x | - | O | - | - | - | -
+                        // - | - | - | x | - | - | - | O | - | - | -
+                        // - | - | x | - | - | - | - | - | O | - | -
+                        // - | x | - | - | - | - | - | - | - | O | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    }
+                    else
+                    if((cabeça.getY()==position.getY()-4 && cabeça.getX()==position.getX()+1)||
+                    (cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()+2)||
+                    (cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()+3)||
+                    (cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+4)){
+                        // - | - | - | - | - | x | - | - | - | - | -
+                        // - | - | - | - | O | - | x | - | - | - | -
+                        // - | - | - | O | - | - | - | x | - | - | -
+                        // - | - | O | - | - | - | - | - | x | - | -
+                        // - | O | - | - | - | - | - | - | - | x | -
+                        // x | - | - | - | - | Y | - | - | - | - | x
+                        // - | x | - | - | - | - | - | - | - | x | -
+                        // - | - | x | - | - | - | - | - | x | - | -
+                        // - | - | - | x | - | - | - | x | - | - | -
+                        // - | - | - | - | x | - | x | - | - | - | -
+                        // - | - | - | - | - | x | - | - | - | - | -
+
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }
+                    else
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                        mov.setUp(-1);
+                    }else
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                        mov.setDown(-1);
+                    }else
+                    if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
+                        mov.setRight(-1);
+                    }else
+                    if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
+                        mov.setLeft(-1);
+                    }
+                }
+            }
+            // path to fruit
+            if(you.getHealth()<50){
+                if(!board.getFood().isEmpty()){
+                    Coordinate target = null;
+                    int distance = Integer.MAX_VALUE;
+                    for (Coordinate c:board.getFood()) {
+                        int newDistance = Math.abs(c.getX()-you.getHead().getX())+Math.abs(c.getX()-you.getHead().getX());
+                        if(newDistance < distance){
+                            distance = newDistance;
+                            target = c;
+                        }
+                    }
+                    // mecanica para ditar qual movimento e prioridade
+                    if(cabeça.getY()<target.getY()){
+                        mov.setPriority(cima);
+                        mov.setPriority(cima);
+                        mov.setPriority(cima);
                     }
                 }
 
-                // check two houses ahead
-                for(Coordinate twoAHead :possibilities(possibility[i])){
-
-                    if(!twoAHead.equals(youCabeca)){
-                        int iX = twoAHead.getX();
-                    int iY = twoAHead.getY();
-                    if(boardMap[iX][iY] == _head){
-                        HeadEntity enemyHead = headTail.get("("+iX+","+iY+")");
-                        int danger = dangerLevel(enemyHead.getLength());
-                        boolean fruitsNear = false;
-                        for(Coordinate coor : possibilities(new Coordinate(iX,iY))){
-                            if(boardMap[coor.getX()][coor.getY()]== _fruit){
-                                fruitsNear = true;
-                                break;
-                            }
-                        }
-                        if(!fruitsNear){
-                            if(danger <= d_weak){priorityMove[i]+=200;}
-                            else if(danger == d_closeToEqual){priorityMove[i]+=100;}
-                            else if(danger == d_equal){priorityMove[i]-=50;}
-                            else if(danger == d_dangerous){priorityMove[i]-=100;}
-                            else {priorityMove[i]-=200;}
-                        } else{
-                            if(danger <= d_weak){priorityMove[i]+=100;}
-                            else if(danger == d_closeToEqual){priorityMove[i]-=500;}
-                            else if(danger == d_equal){priorityMove[i]-=70;}
-                            else if(danger == d_dangerous){priorityMove[i]-=100;}
-                            else {priorityMove[i]-=200;}
-                        }
+                    if(cabeça.getY()>target.getY()){
+                        mov.setPriority(baixo);
+                        mov.setPriority(baixo);
+                        mov.setPriority(baixo);
                     }
+
+                    if(cabeça.getX()<target.getX()){
+                        mov.setPriority(dir);
+                        mov.setPriority(dir);
+                        mov.setPriority(dir);
+                    }
+
+                    if(cabeça.getX()>target.getX()){
+                        mov.setPriority(esq);
+                        mov.setPriority(esq);
+                        mov.setPriority(esq);
                     }
                 }
-
-                if(closestFood != null){
-
-                    Map<Coordinate,Coordinate> path = Astar(youCabeca, closestFood);
-                    Coordinate lastMove = closestFood;
-
-                    if(path.containsKey(possibility[i])){
-                        if(path.get(possibility[i]).equals(youCabeca)){
-                            priorityMove[i]+=20;
+            }
+            else{
+                if(!board.getFood().isEmpty()){
+                    Coordinate target = null;
+                    int distance = Integer.MAX_VALUE;
+                    for (Coordinate c:board.getFood()) {
+                        int newDistance = Math.abs(c.getX()-you.getHead().getX())+Math.abs(c.getX()-you.getHead().getX());
+                        if(newDistance < distance){
+                            distance = newDistance;
+                            target = c;
                         }
                     }
-                }
+                    // mecanica para ditar qual movimento e prioridade
+                    if(cabeça.getY()<target.getY()){
+                        mov.setPriority(cima);
+                    }
 
-                if(you.getHealth() >= low_health && closestFood == null){
-                    Coordinate tail = headTail.get("("+youCabeca.getX()+","+youCabeca.getY()+")").getNode().getPosition();
-                
-                    if(tail!= null){
-                        if(!youCabeca.equals(tail)){
-                        Map<Coordinate,Coordinate> path = Astar(youCabeca, tail);
-                        Coordinate lastMove = closestFood;
+                    if(cabeça.getY()>target.getY()){
+                        mov.setPriority(baixo);
+                    }
 
-                    if(path.containsKey(youCabeca)){
-                        if(path.get(possibility[i]).equals(youCabeca)){
-                            priorityMove[i]+=20;
-                        }
+                    if(cabeça.getX()<target.getX()){
+                        mov.setPriority(dir);
                     }
-                    }
+
+                    if(cabeça.getX()>target.getX()){
+                        mov.setPriority(esq);
                     }
                 }
-            } // else end
-        }
-        finalPriority();
-        for(int i:finalDecision){
-            if(i != _notAvalible){
+            }
+        int[] decision = mov.finalPriority();
+        for(int i:decision){
+            if(i != -1){
                 switch (i) {
                     case _up:
                         move.put("move", "up"); isDecided = true; break;
