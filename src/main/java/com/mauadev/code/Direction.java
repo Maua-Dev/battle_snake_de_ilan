@@ -47,7 +47,8 @@ public  class Direction {
                     resp[i] = left;
                     break;
             }
-            priority[index] = -1;
+            priority[index] = -999;
+
         }
         return resp;
     }
@@ -88,7 +89,9 @@ public  class Direction {
         priority[index-1]++;
     }
 
-    
+    public void removePriority(int index, int value) {
+        priority[index-1]-=value;
+    }
     
     
 }

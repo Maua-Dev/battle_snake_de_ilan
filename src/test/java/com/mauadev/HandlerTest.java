@@ -203,9 +203,10 @@ public class HandlerTest {
     "height": 11,
     "width": 11,
     "food": [
-      {"x": 5, "y": 5},
-      {"x": 9, "y": 0},
-      {"x": 2, "y": 6}
+      {"x": 1, "y": 2},
+      {"x": 2, "y": 1},
+      {"x": 2, "y": 9},
+      {"x": 5, "y": 9}
     ],
     "hazards": [
       {"x": 3, "y": 2}
@@ -214,15 +215,15 @@ public class HandlerTest {
       {
         "id": "snake-508e96ac-94ad-11ea-bb37",
         "name": "My Snake",
-        "health": 54,
+        "health": 100,
         "body": [
-          {"x": 7, "y": 0},
-          {"x": 6, "y": 0},
-          {"x": 5, "y": 0},
-          {"x": 5, "y": 1}
+          {"x": 4, "y": 7},
+          {"x": 3, "y": 7},
+          {"x": 2, "y": 7},
+          {"x": 2, "y": 6}
         ],
         "latency": "111",
-        "head": {"x": 7, "y": 0},
+        "head": {"x": 4, "y": 7},
         "length": 4,
         "shout": "why are we shouting??",
         "customizations":{
@@ -234,15 +235,16 @@ public class HandlerTest {
       {
         "id": "snake-b67f4906-94ae-11ea-bb37",
         "name": "Another Snake",
-        "health": 16,
+        "health": 61,
         "body": [
-          {"x": 9, "y": 4},
-          {"x": 8, "y": 4},
-          {"x": 8, "y": 5}
+          {"x": 0, "y": 5},
+          {"x": 1, "y": 5},
+          {"x": 1, "y": 4},
+          {"x": 0, "y": 4}
         ],
         "latency": "222",
-        "head": {"x": 9, "y": 4},
-        "length": 3,
+        "head": {"x": 0, "y": 5},
+        "length": 4,
         "shout": "I'm not really sure...",
         "customizations":{
           "color":"#26CF04",
@@ -255,15 +257,19 @@ public class HandlerTest {
   "you": {
     "id": "snake-508e96ac-94ad-11ea-bb37",
     "name": "My Snake",
-    "health": 80,
+    "health": 93,
     "body": [
-      {"x": 6, "y": 1},
-      {"x": 6, "y": 2},
-      {"x": 6, "y": 3}
+      {"x": 2, "y": 5},
+      {"x": 2, "y": 4},
+      {"x": 3, "y": 4},
+      {"x": 3, "y": 3},
+      {"x": 3, "y": 2},
+      {"x": 3, "y": 1},
+      {"x": 3, "y": 0}
     ],
     "latency": "111",
-    "head": {"x": 6, "y": 1},
-    "length": 3,
+    "head": {"x": 2, "y": 5},
+    "length": 7,
     "shout": "why are we shouting??",
     "customizations": {
       "color":"#FF0000",
