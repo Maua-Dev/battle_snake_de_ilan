@@ -169,38 +169,109 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             for(Snake s:board.getSnakes()){
                 for(int i = 0; i <s.getBody().size();i++){
                     Coordinate position = s.getBody().get(i);
+                    //cauda
+                    if(i == s.getBody().size()-1){
+                        int[][] possibilidades = new int[][]{
+                            {0, 1},
+                            {0, -1},
+                            {1, 0},
+                            {-1, 0}
+                        };
+                        if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                            // cima
+                            for (Coordinate fruit : board.getFood()) {
+                                for (int[] cordenada: possibilidades) {
+                                    if(fruit.getX() == s.getHead().getX()+cordenada[0] && fruit.getY() == s.getHead().getY()+cordenada[1]){
+                                        mov.setUp(mov.getUp()-3);
+                                    }
+                                }
+                            }
+                        } // cima
+                        else if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                            // baixo
+                            for (Coordinate fruit : board.getFood()) {
+                                for (int[] cordenada: possibilidades) {
+                                    if(fruit.getX() == s.getHead().getX()+cordenada[0] && fruit.getY() == s.getHead().getY()+cordenada[1]){
+                                        mov.setDown(mov.getDown()-3);
+                                    }
+                                }
+                            }
+                        } // baixo
+                        else if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-1){
+                            // direita
+                            for (Coordinate fruit : board.getFood()) {
+                                for (int[] cordenada: possibilidades) {
+                                    if(fruit.getX() == s.getHead().getX()+cordenada[0] && fruit.getY() == s.getHead().getY()+cordenada[1]){
+                                        mov.setRight(mov.getRight()-3);
+                                    }
+                                }
+                            }
+                        } // direita
+                        else
+                        if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+1){
+                            // esquerda
+                            for (Coordinate fruit : board.getFood()) {
+                                for (int[] cordenada: possibilidades) {
+                                    if(fruit.getX() == s.getHead().getX()+cordenada[0] && fruit.getY() == s.getHead().getY()+cordenada[1]){
+                                        mov.setLeft(mov.getLeft()-3);
+                                    }
+                                }
+                            }
+                        } // esquerda
+                    }else
+                    //cabeça
                     if(i == 0){
                     // prioridades
                     if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-1){
                         // - | - | O
                         // - | Y | -
                         // - | - | -
-                        mov.setPriority(esq);
-                        mov.setPriority(baixo);
+                        if(s.getLength() < you.getLength()){
+                            mov.setPriority(dir);
+                            mov.setPriority(cima);
+                        } else{
+                            mov.setPriority(esq);
+                            mov.setPriority(baixo);
+                        }
                     }
                     else
                     if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+1){
                         // O | - | -
                         // - | Y | -
                         // - | - | -
-                        mov.setPriority(dir);
-                        mov.setPriority(baixo);
+                        if(s.getLength() < you.getLength()){
+                            mov.setPriority(esq);
+                            mov.setPriority(cima);
+                        } else{
+                            mov.setPriority(dir);
+                            mov.setPriority(baixo);
                     }
+                }
                     else
                     if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-1){
                         // - | - | -
                         // - | Y | -
                         // - | - | O
-                        mov.setPriority(esq);
-                        mov.setPriority(cima);
+                        if(s.getLength() < you.getLength()){
+                            mov.setPriority(dir);
+                            mov.setPriority(baixo);
+                        } else{
+                            mov.setPriority(esq);
+                            mov.setPriority(cima);
+                    }
                     }
                     else
                     if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+1){
                         // - | - | -
                         // - | Y | -
                         // O | - | -
-                        mov.setPriority(dir);
-                        mov.setPriority(cima);
+                        if(s.getLength() < you.getLength()){
+                            mov.setPriority(esq);
+                            mov.setPriority(baixo);
+                        } else{
+                            mov.setPriority(dir);
+                            mov.setPriority(cima);
+                    }
                     }
                     else
                     if(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()){
@@ -209,9 +280,14 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         // - | - | Y | - | -
                         // - | - | - | - | -
                         // - | - | - | - | -
+                        if(s.getLength() < you.getLength()-1){
+                            mov.setPriority(cima);
+                        } else{
                         mov.setPriority(esq);
                         mov.setPriority(baixo);
                         mov.setPriority(dir);
+                    }
+
                     }
                     else
                     if(cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()){
@@ -220,9 +296,13 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         // - | - | Y | - | -
                         // - | - | - | - | -
                         // - | - | O | - | -
+                        if(s.getLength() < you.getLength()-1){
+                            mov.setPriority(baixo);
+                        } else{
                         mov.setPriority(esq);
                         mov.setPriority(cima);
                         mov.setPriority(dir);
+                    }
                     }
                     else
                     if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-2){
@@ -231,9 +311,13 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         // - | - | Y | - | O
                         // - | - | - | - | -
                         // - | - | - | - | -
-                        mov.setPriority(esq);
-                        mov.setPriority(baixo);
+                        if(s.getLength() < you.getLength()-1){
+                            mov.setPriority(dir);
+                        } else{
                         mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(esq);
+                    }
                     }
                     else
                     if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+2){
@@ -242,9 +326,13 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                         // O | - | Y | - | -
                         // - | - | - | - | -
                         // - | - | - | - | -
-                        mov.setPriority(dir);
-                        mov.setPriority(baixo);
+                        if(s.getLength() < you.getLength()-1){
+                            mov.setPriority(esq);
+                        } else{
                         mov.setPriority(cima);
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }
                     }else
                     if(cabeça.getY()==position.getY()-3 && cabeça.getX()==position.getX()){
                         // - | - | - | 0 | - | - | -
