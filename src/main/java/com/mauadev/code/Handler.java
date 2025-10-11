@@ -156,8 +156,10 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
 
         // get information
         requestBody = request.getBody();
-        gameState = gson.fromJson(requestBody, GameState.class);
-        board = gameState.getBoard();
+        
+        if(!request.getBody().equals("{}")){
+            gameState = gson.fromJson(requestBody, GameState.class);
+            board = gameState.getBoard();
 
         // set global variables
         width = board.getWidth();
@@ -168,6 +170,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         heigthLimit = heigth-1;
         //initialize board map and danger
         clearBoard();
+        }
     }
 
     /**
