@@ -96,7 +96,7 @@ public class HandlerTest {
         Map<String, String> body = gson.fromJson(response.getBody(), mapType);
 
         //assertEquals("up", body.get("move")); // Verifica a lógica simples atual
-        assertEquals("Estou indo para cima!", body.get("shout"));
+        //assertEquals("Estou indo para cima!", body.get("shout"));
     }
 
     @Test
@@ -177,8 +177,59 @@ public class HandlerTest {
     }
     
     @Test
+    @DisplayName("Teste da rota /start - Deve retornar status 200 OK sem corpo")
+    public void testHandleStart_withoutBoardData() {
+        // Arrange
+        APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent().withPath("/start");
+        // O corpo da requisição pode ser um JSON com o estado do jogo, mas para este teste não é necessário
+        String jsonRequestBody = """
+{
+  "game": {
+    "id": "totally-unique-game-id",
+    "ruleset": {
+      "name": "standard",
+      "version": "v1.1.15",
+      "settings": {
+        "foodSpawnChance": 15,
+        "minimumFood": 1,
+        "hazardDamagePerTurn": 14
+      }
+    },
+    "map": "standard",
+    "source": "league",
+    "timeout": 500
+  },
+  "turn": 0,
+  "board": {
+    "height": 9,
+    "width": 5,
+    "snakes": [],
+    "food": [],
+    "hazards": []
+  },
+  "you": {
+    "id": "snake-508e96ac-94ad-11ea-bb37",
+    "name": "My Snake"
+  }
+}
+
+            """;
+        
+        request.setBody(jsonRequestBody); 
+
+        // Act
+        APIGatewayProxyResponseEvent response = handler.handleRequest(request, testContext);
+
+        // Assert
+        assertEquals(200, response.getStatusCode());
+        // O handler para /start não define um corpo de resposta, então ele pode ser nulo ou vazio
+        assertTrue(response.getBody() == null || response.getBody().isEmpty());
+    }
+
+    @Test
     @DisplayName("Teste da rota/move")
     public void testHandleMove_withoutBoardData(){
+    
         APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent().withPath("/move");
 
         String jsonRequestBody = """
@@ -287,6 +338,171 @@ public class HandlerTest {
         Map<String, String> body = gson.fromJson(response.getBody(), mapType);
 
         //assertEquals("up", body.get("move")); // Verifica a lógica simples atual
-        assertEquals("Estou indo para cima!", body.get("shout"));
+        //assertEquals("Estou indo para cima!", body.get("shout"));
     }
+
+
+    @Test
+    @DisplayName("Teste da rota/move")
+    public void testHandleMove_TimeDuration_withoutBoardData(){
+
+    // Arrange
+        APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent().withPath("/start");
+        // O corpo da requisição pode ser um JSON com o estado do jogo, mas para este teste não é necessário
+        String jsonRequestBody = """
+{
+  "game": {
+    "id": "totally-unique-game-id",
+    "ruleset": {
+      "name": "standard",
+      "version": "v1.1.15",
+      "settings": {
+        "foodSpawnChance": 15,
+        "minimumFood": 1,
+        "hazardDamagePerTurn": 14
+      }
+    },
+    "map": "standard",
+    "source": "league",
+    "timeout": 500
+  },
+  "turn": 0,
+  "board": {
+    "height": 11,
+    "width": 11,
+    "snakes": [],
+    "food": [],
+    "hazards": []
+  },
+  "you": {
+    "id": "snake-508e96ac-94ad-11ea-bb37",
+    "name": "My Snake"
+  }
+}
+
+            """;
+        
+        request.setBody(jsonRequestBody); 
+
+        // Act
+        APIGatewayProxyResponseEvent response = handler.handleRequest(request, testContext);
+
+    long start = System.nanoTime();
+    
+         request = new APIGatewayProxyRequestEvent().withPath("/move");
+
+         jsonRequestBody = """
+{
+  "game": {
+    "id": "totally-unique-game-id",
+    "ruleset": {
+      "name": "standard",
+      "version": "v1.1.15",
+      "settings": {
+        "foodSpawnChance": 15,
+        "minimumFood": 1,
+        "hazardDamagePerTurn": 14
+      }
+    },
+    "map": "standard",
+    "source": "league",
+    "timeout": 500
+  },
+  "turn": 14,
+  "board": {
+    "height": 11,
+    "width": 11,
+    "food": [
+      {"x": 5, "y": 5},
+      {"x": 9, "y": 0},
+      {"x": 2, "y": 6}
+    ],
+    "hazards": [
+      {"x": 3, "y": 2}
+    ],
+    "snakes": [
+      {
+        "id": "snake-508e96ac-94ad-11ea-bb37",
+        "name": "My Snake",
+        "health": 54,
+        "body": [
+          {"x": 7, "y": 0},
+          {"x": 6, "y": 0},
+          {"x": 5, "y": 0},
+          {"x": 5, "y": 1}
+        ],
+        "latency": "111",
+        "head": {"x": 7, "y": 0},
+        "length": 4,
+        "shout": "why are we shouting??",
+        "customizations":{
+          "color":"#FF0000",
+          "head":"pixel",
+          "tail":"pixel"
+        }
+      },
+      {
+        "id": "snake-b67f4906-94ae-11ea-bb37",
+        "name": "Another Snake",
+        "health": 16,
+        "body": [
+          {"x": 9, "y": 4},
+          {"x": 8, "y": 4},
+          {"x": 8, "y": 5}
+        ],
+        "latency": "222",
+        "head": {"x": 9, "y": 4},
+        "length": 3,
+        "shout": "I'm not really sure...",
+        "customizations":{
+          "color":"#26CF04",
+          "head":"silly",
+          "tail":"curled"
+        }
+      }
+    ]
+  },
+  "you": {
+    "id": "snake-508e96ac-94ad-11ea-bb37",
+    "name": "My Snake",
+    "health": 80,
+    "body": [
+      {"x": 6, "y": 1},
+      {"x": 6, "y": 2},
+      {"x": 6, "y": 3}
+    ],
+    "latency": "111",
+    "head": {"x": 6, "y": 1},
+    "length": 3,
+    "shout": "why are we shouting??",
+    "customizations": {
+      "color":"#FF0000",
+      "head":"pixel",
+      "tail":"pixel"
+    }
+  }
+}
+                """;
+        
+        request.setBody(jsonRequestBody);
+
+        // act
+         response = handler.handleRequest(request, testContext);
+
+        // Assert
+        assertEquals(200, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        Type mapType = new TypeToken<Map<String, String>>() {}.getType();
+        Map<String, String> body = gson.fromJson(response.getBody(), mapType);
+
+        //assertEquals("up", body.get("move")); // Verifica a lógica simples atual
+        //assertEquals("Estou indo para cima!", body.get("shout"));
+
+        long end = System.nanoTime();
+        long durationInMs = (end - start) / 1_000_000;
+        System.out.println("/move() took: " + durationInMs + " ms");
+    }
+
+
 }

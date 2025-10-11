@@ -8,19 +8,19 @@ public class Snake {
     private int health;
     private List<Coordinate> body;
     private Coordinate head;
-    private int lenght;
+    private int length;
     private String shout;
 
     public Snake() {
     }
 
-    public Snake(String id, String name, int health, List<Coordinate> body, Coordinate head, int lenght, String shout) {
+    public Snake(String id, String name, int health, List<Coordinate> body, Coordinate head, int length, String shout) {
         this.id = id;
         this.name = name;
         this.health = health;
         this.body = body;
         this.head = head;
-        this.lenght = lenght;
+        this.length = length;
         this.shout = shout;
     }
 
@@ -40,8 +40,8 @@ public class Snake {
         return id;
     }
 
-    public int getLenght() {
-        return lenght;
+    public int getLength() {
+        return length;
     }
 
     public String getName() {
@@ -68,8 +68,8 @@ public class Snake {
         this.id = id;
     }
 
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public void setName(String name) {
