@@ -206,10 +206,10 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
         }
         // decision analysies
         Coordinate[] possibility = new Coordinate[]{
-            new Coordinate(youCabeca.getX()+1,youCabeca.getY()),
-            new Coordinate(youCabeca.getX()-1,youCabeca.getY()),
-            new Coordinate(youCabeca.getX(),youCabeca.getY()-1),
-            new Coordinate(youCabeca.getX(),youCabeca.getY()+1)
+            new Coordinate(youCabeca.getX(),youCabeca.getY()+1), //up
+            new Coordinate(youCabeca.getX()-1,youCabeca.getY()-1),    // down
+            new Coordinate(youCabeca.getX()+1,youCabeca.getY()),    //rigth
+            new Coordinate(youCabeca.getX()-1,youCabeca.getY())     //left
         };
 
         for(int i = 0; i< 4;i++){
