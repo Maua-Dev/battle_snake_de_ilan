@@ -1,0 +1,302 @@
+// novo
+    private int[][] boardMap;
+    private int width = 11, heigth = 11;
+    private final int 
+        empty = 0,
+        wall = -1,
+        fruit = 2,
+        head = 3,
+        tail = 4;
+    private final int 
+        cima = 1, 
+        baixo = 2,
+        dir = 3,
+        esq = 4;
+    // extras
+    private Map<String, String> move;
+    private boolean test;
+    private String requestBody;
+    private GameState gameState;
+    private Board board;
+    private Snake you;
+    private Direction mov;
+
+
+/move
+// AQUI VAI A LÓGICA DA SUA COBRA!
+        // O corpo da requisição (request.getBody()) contém o estado atual do tabuleiro.
+        // Você deve analisá-lo para tomar uma decisão inteligente.
+        // Exemplo de lógica muito simples: sempre se mover para cima.
+        // CUIDADO: Isso fará sua cobra bater na parede rapidamente!
+
+        // "up", "down", "left", "right"
+        // health (integer) : 0 - 100
+        // body (array) : position on board (head to tail)
+        // head (object) : body(0)
+        // lenght (integer) : = body.length
+        // board: 11x11 -> [0 10] (0,0) Y cima+, X direita+
+            // heigh : numero de linhas em y
+            // widht : numero de colunas em X
+        // hazards (array) : com localizacao dos perigos
+        // food (array) : com localizacao das comidas
+        // snakes (array) : com quais snakes permanecem em jogo
+/move code
+
+move = new HashMap<>();
+        mov = new Direction();
+
+        requestBody = request.getBody();
+        gameState = gson.fromJson(requestBody, GameState.class);
+        board = gameState.getBoard();
+        you = (Snake)gameState.getYou();
+
+        //
+        // movimentacao padrao
+        Map<Integer, Map<Integer,HeadEntity>> headTail = new HashMap<>();
+
+        test = false;
+        Coordinate cabeça = you.getHead();
+
+        // update board logic
+        List<Coordinate> trab;
+        List<Snake> trabSnake;
+            // frutas
+            trab = board.getFood();
+            if(!trab.isEmpty()){
+                for (Coordinate food : trab) {
+                    boardMap[food.getX()][food.getY()] = fruit;
+                }
+            }
+            // hazard
+            trab = board.getHazards();
+            if(!trab.isEmpty()){
+                for (Coordinate hazards : trab) {
+                    boardMap[hazards.getX()][hazards.getY()] = fruit;
+                }
+            }
+            //snakes
+            trabSnake = board.getSnakes();
+            for (Snake s : trabSnake) {
+                HeadEntity sCabeca = new HeadEntity(head, s.getHead(), s.getLenght());
+                boardMap[sCabeca.getX()][sCabeca.getY()] = head;
+                HeadEntity sCauda = new HeadEntity(tail, s.getBody().get(sCabeca.getLenght()-1));
+                boardMap[sCauda.getX()][sCauda.getY()] = tail;
+
+                sCabeca.setNode(sCauda);
+                sCauda.setNode(sCabeca);
+
+                headTail.putIfAbsent(sCabeca.getX(), new HashMap<Integer,HeadEntity>());
+                headTail.putIfAbsent(sCauda.getX(), new HashMap<Integer,HeadEntity>());
+                
+                headTail.get(sCabeca.getX()).put(sCabeca.getY(),sCabeca);
+                headTail.get(sCauda.getX()).put(sCauda.getY(),sCauda);
+
+                for (int i = 1; i < sCabeca.getLenght()-1; i++) {
+                    boardMap[s.getBody().get(i).getX()][s.getBody().get(i).getY()] = wall;
+                }
+
+            }
+            
+        //
+        if(!test){
+            move.put("move", "down");
+
+        }
+        
+/*
+     * old comparison
+     */
+
+
+     /*
+      * if(cabeça != null){
+        // not colide with board
+            if(cabeça.getY()==board.getHeight()-1){
+                mov.setUp(-1);
+            }
+            if(cabeça.getY()==0){
+                mov.setDown(-1);
+            }
+            if(cabeça.getX()==board.getWidth() -1){
+                mov.setRight(-1);
+            }
+            if(cabeça.getX()==0){
+                mov.setLeft(-1);
+            }
+        // not colide with body
+
+            for(int i = 1; i <you.getBody().size()-1;i++){
+                Coordinate position = you.getBody().get(i);
+                if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                    mov.setUp(-1);
+                }
+                if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                    mov.setDown(-1);
+                }
+                if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
+                    mov.setRight(-1);
+                }
+                if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
+                    mov.setLeft(-1);
+                }
+            }
+        // not colide with other snakes
+            for(Snake s:board.getSnakes()){
+                for(int i = 0; i <s.getBody().size();i++){
+                    Coordinate position = s.getBody().get(i);
+                    if(i == 0){
+                    // prioridades
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()-1){
+                        // - | - | O
+                        // - | Y | -
+                        // - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                    }
+
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()+1){
+                        // O | - | -
+                        // - | Y | -
+                        // - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                    }
+
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()-1){
+                        // - | - | -
+                        // - | Y | -
+                        // - | - | O
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                    }
+
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()+1){
+                        // - | - | -
+                        // - | Y | -
+                        // O | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(cima);
+                    }
+
+                    if(cabeça.getY()==position.getY()-2 && cabeça.getX()==position.getX()){
+                        // - | - | O | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(dir);
+                    }
+
+                    if(cabeça.getY()==position.getY()+2 && cabeça.getX()==position.getX()){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | O | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(cima);
+                        mov.setPriority(dir);
+                    }
+
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()-2){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // - | - | Y | - | O
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(esq);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }
+
+                    if(cabeça.getY()==position.getY() && cabeça.getX()==position.getX()+2){
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        // O | - | Y | - | -
+                        // - | - | - | - | -
+                        // - | - | - | - | -
+                        mov.setPriority(dir);
+                        mov.setPriority(baixo);
+                        mov.setPriority(cima);
+                    }
+                    }
+                    if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                        mov.setUp(-1);
+                    }
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                        mov.setDown(-1);
+                    }
+                    if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
+                        mov.setRight(-1);
+                    }
+                    if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
+                        mov.setLeft(-1);
+                    }
+                }
+            }
+            // path to fruit
+            if(you.getHealth()<50){
+                if(!board.getFood().isEmpty()){
+                    Coordinate target = board.getFood().get(0);
+                    // mecanica para ditar qual movimento e prioridade
+                    if(cabeça.getY()<target.getY()){
+                        if(mov.getUp()!=-1){
+                            move.put("move", "up");
+                            test = true;
+                        }
+                    }
+
+                    if(cabeça.getY()>target.getY()){
+                        if(mov.getDown()!=-1){
+                            move.put("move", "down");
+                            test = true;
+                        }
+                    }
+
+                    if(cabeça.getX()<target.getX()){
+                        if(mov.getRight()!=-1){
+                            move.put("move", "right");
+                            test = true;
+                        }
+                    }
+
+                    if(cabeça.getX()>target.getX()){
+                        if(mov.getLeft()!=-1){
+                            move.put("move", "left");
+                            test = true;
+                        }
+                    }
+                }
+            }
+            else{
+                int[] decision = mov.finalPriority();
+        for(int i:decision){
+            if(i != -1){
+                switch (i) {
+                    case 1:
+                        move.put("move", "up");
+                        test = true;
+                        break;
+                    case 2:
+                        move.put("move", "down");
+                        test = true;
+                        break;
+                    case 3:
+                        move.put("move", "right");
+                        test = true;
+                        break;
+                    case 4:
+                        move.put("move", "left");
+                        test = true;
+                        break;
+                }
+                break;
+            }
+        }
+            }
+        
+        }
+      */
+
