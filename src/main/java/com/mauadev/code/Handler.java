@@ -340,8 +340,17 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                 break;
             }
             for (Coordinate c : possibilities(agora)) {
+                int value = boardMap[c.getX()][c.getY()];
+                boolean podePisar = (value != _wall);
                 int novoCusto = preço.get((agora))+dangerMap[c.getX()][c.getY()];
-                if((!deOndeveio.containsKey(c)|| novoCusto<preço.get(c) ) && (boardMap[c.getX()][c.getY()]!= _wall)){
+
+                if(value == _tail){
+                    Coordinate tail = you.getBody().get(you.getLength() - 1);
+                    boolean isOwnTail = tail.equals(c);
+                    boolean notGrowing = you.getHealth() < 100;
+                    podePisar = isOwnTail && notGrowing;
+                }
+                if((!deOndeveio.containsKey(c)|| novoCusto<preço.get(c) ) && (podePisar)){
                     preço.putIfAbsent(c, novoCusto);
                     int prioridade = novoCusto + calculateDistance(c, goal);
                     fila.add(new Node(c, prioridade));
