@@ -739,7 +739,19 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
                     if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
                         mov.setLeft(-1);
                     }
-                }
+                }else
+                if(cabeça.getY()==position.getY()-1 && cabeça.getX()==position.getX()){
+                        mov.setUp(-1);
+                    }else
+                    if(cabeça.getY()==position.getY()+1 && cabeça.getX()==position.getX()){
+                        mov.setDown(-1);
+                    }else
+                    if(cabeça.getX()==position.getX()-1 && cabeça.getY()==position.getY()){
+                        mov.setRight(-1);
+                    }else
+                    if(cabeça.getX()==position.getX()+1 && cabeça.getY()==position.getY()){
+                        mov.setLeft(-1);
+                    }
             }
             // path to fruit
             if(you.getHealth()<50){
